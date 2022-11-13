@@ -20,7 +20,24 @@ export class UserService {
   }
 
   findAll(): Promise<User[]> {
-    return this.repository.find();
+    // return this.repository.find(
+    //   {
+    //     relations: ['images', 'user'],
+    //     // where: { user: { id: id } },
+    //   }
+    // );
+    // return this.repository.createQueryBuilder("user")
+    //   .innerJoinAndSelect("address.address", "address")
+    //     // .where("user_id = :userId", {userId: id})
+    //       .getMany();
+
+    const users = this.repository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.address", "address")
+      // .leftJoinAndSelect("user.phones", "phones")
+      .getMany();
+
+    return users;
   }
 
   findOne(id: number): Promise<User> {

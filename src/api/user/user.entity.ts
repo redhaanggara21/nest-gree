@@ -4,9 +4,14 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn
+  DeleteDateColumn,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
 } from 'typeorm';
 
+import { Address } from '../address/entities/address.entity';
+import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -18,7 +23,13 @@ export class User {
   @Column({ type: 'varchar', length: 120 })
   public username: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column(
+    {
+      type: 'varchar',
+      length: 120,
+      // unique: true
+    }
+  )
   public email: string;
 
   @Column({ type: 'varchar', length: 120 })
@@ -35,4 +46,55 @@ export class User {
 
   @DeleteDateColumn({ type: 'timestamp' })
   public deleteAt!: Date;
+
+  // @OneToMany(() => Address, (address) => address)
+  // address: Address[]
+
+  // @OneToMany(() => Address, address => address.userId, {
+  //   cascade: true
+  // })
+  // // @JoinColumn({ name: 'userId' })
+  // address: Address[];
+
+  // @ManyToOne(() => gender, (gender) => gender.photos)
+  // @JoinColumn({ name: 'gender_id' })
+  // gender: gender;
+
+
+  // @OneToMany(() => Address, (address) => address.user)
+  // address: Address[];
+  // @OneToOne(() => Address, {
+  //   eager: true,
+  //   cascade: true
+  // })
+  // @JoinColumn()
+  // public address: Address;
+
+  // @OneToMany(type => Address, Address => Address)
+  // @JoinColumn({
+  //   name: "userId",
+  //   referencedColumnName: "id"
+  // })
+  // address: Address[];
+
+  // @OneToMany(type => Address, address => address.id)
+
+  @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
+    cascade: true
+  })
+  @JoinColumn()
+  phonenumber: Phonenumber;
+
+  @OneToMany(() => Address, address => address.user, {
+    cascade: true
+  })
+  address: Address[];
+
+  addAddrress(address: Address) {
+    if(this.address == null) {
+      this.address = new Array<Address>();
+    }
+    this.address.push(address);
+  }
+
 }

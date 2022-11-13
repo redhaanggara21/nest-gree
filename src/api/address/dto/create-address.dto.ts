@@ -14,4 +14,7 @@ export class CreateAddressDto {
 
     @IsNotEmpty()
     userId: number;
+
+    @IsNotEmpty()
+    user_id: number;
 }

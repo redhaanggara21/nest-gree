@@ -4,8 +4,13 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn
+  DeleteDateColumn,
+  OneToOne,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
+
+import { User } from '../../user/user.entity';
 
 @Entity()
 export class Address {
@@ -25,6 +30,9 @@ export class Address {
   @Column({ nullable: false, type: "float", default: 0.0 })
   public userId: number;
 
+  @Column({ nullable: true, type: "float", default: 0 })
+  public user_id: number;
+
   @Column({ type: 'boolean', default: false })
   public isDeleted: boolean;
 
@@ -36,4 +44,10 @@ export class Address {
 
   @DeleteDateColumn({ type: 'timestamp' })
   public deleteAt!: Date;
+
+  // @ManyToOne(() => User, (user: User) => user.address)
+  // public user: User;
+  @ManyToOne(type => User, user => user.address)
+  @JoinColumn({name: 'user_id'})
+  user: User;
 }

@@ -5,7 +5,10 @@ import { UpdatePhonenumberDto } from './dto/update-phonenumber.dto';
 
 @Controller('phonenumber')
 export class PhonenumberController {
-  constructor(private readonly phonenumberService: PhonenumberService) {}
+
+  constructor(
+    private phonenumberService: PhonenumberService
+  ) {}
 
   @Post()
   create(@Body() createPhonenumberDto: CreatePhonenumberDto) {

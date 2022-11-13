@@ -7,6 +7,7 @@ import {
   DeleteDateColumn
 } from 'typeorm';
 
+@Entity()
 export class Address {
 
   @PrimaryGeneratedColumn()

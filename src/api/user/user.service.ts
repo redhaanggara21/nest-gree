@@ -9,16 +9,28 @@ export class UserService {
   @InjectRepository(User)
   private readonly repository: Repository<User>;
 
-  public getUser(id: number): Promise<User> {
+  create(body: CreateUserDto): Promise<User> {
+    const user: User = new User();
+    user.name = body.name;
+    user.username = body.username;
+    user.email = body.email;
+    user.password = body.password;
+    return this.repository.save(user);
+  }
+
+  findAll(): Promise<User[]> {
+    return this.repository.find();
+  }
+
+  findOne(id: number): Promise<User> {
     return this.repository.findOne(id);
   }
 
-  public createUser(body: CreateUserDto): Promise<User> {
-    const user: User = new User();
+  update(id: number, address: CreateUserDto): Promise<any>  {
+    return this.repository.update(id, address);
+  }
 
-    user.name = body.name;
-    user.email = body.email;
-
-    return this.repository.save(user);
+  remove(id: number) {
+    return this.repository.delete(id);
   }
 }

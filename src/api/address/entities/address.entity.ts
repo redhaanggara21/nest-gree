@@ -7,25 +7,22 @@ import {
   DeleteDateColumn
 } from 'typeorm';
 
-@Entity()
-export class User {
+export class Address {
+
   @PrimaryGeneratedColumn()
   public id!: number;
 
   @Column({ type: 'varchar', length: 120 })
-  public name: string;
+  public street: string;
 
   @Column({ type: 'varchar', length: 120 })
-  public username: string;
+  public city: string;
 
   @Column({ type: 'varchar', length: 120 })
-  public email: string;
+  public country: string;
 
-  @Column({ type: 'varchar', length: 120 })
-  public password: string;
-
-  @Column({ type: 'boolean', default: true })
-  public isActivated: boolean;
+  @Column({ type: 'boolean', default: false })
+  public isDeleted: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

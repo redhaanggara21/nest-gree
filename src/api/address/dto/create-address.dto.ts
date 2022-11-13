@@ -11,4 +11,7 @@ export class CreateAddressDto {
 
     @IsNotEmpty()
     country: string;
+
+    @IsNotEmpty()
+    userId: number;
 }

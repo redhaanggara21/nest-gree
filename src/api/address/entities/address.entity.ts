@@ -22,6 +22,9 @@ export class Address {
   @Column({ type: 'varchar', length: 120 })
   public country: string;
 
+  @Column({ nullable: false, type: "float", default: 0.0 })
+  public userId: number;
+
   @Column({ type: 'boolean', default: false })
   public isDeleted: boolean;
 

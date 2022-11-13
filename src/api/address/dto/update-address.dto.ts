@@ -11,4 +11,7 @@ export class UpdateAddressDto {
 
     @IsNotEmpty()
     country: string;
+
+    @IsNotEmpty()
+    userId: number;
 }

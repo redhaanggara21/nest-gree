@@ -13,13 +13,16 @@ import { User } from '../../user/user.entity';
 export class Phonenumber {
 
   @PrimaryGeneratedColumn()
-  id: number;
+  public id: number;
 
   @Column()
-  phoneNumber: number;
+  public phoneNumber: number;
+
+  @Column({ nullable: true, type: "float", default: 0 })
+  public user_id: number;
 
   @OneToOne(() => User, user => user.phonenumber)
-  user: User;
+  public user: User;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

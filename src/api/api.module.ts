@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
-import { Phonenumber } from './phoneNumber/entities/phonenumber.entity';
+import { PhonenumberModule } from './phonenumber/phonenumber.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
     UserModule,
     AddressModule,
-    Phonenumber
+    ProfileModule,
+    PhonenumberModule
   ],
 })
 export class ApiModule {}

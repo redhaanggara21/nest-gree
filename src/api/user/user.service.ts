@@ -34,7 +34,7 @@ export class UserService {
     const users = this.repository
       .createQueryBuilder("user")
       .leftJoinAndSelect("user.address", "address")
-      // .leftJoinAndSelect("user.phones", "phones")
+      .leftJoinAndSelect("user.profile", "profile")
       .getMany();
 
     return users;

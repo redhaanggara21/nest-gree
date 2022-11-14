@@ -1,3 +1,4 @@
+import { profile } from 'console';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,6 +13,7 @@ import {
 
 import { Address } from '../address/entities/address.entity';
 import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
+import { Profile } from '../profile/entities/profile.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -84,6 +86,12 @@ export class User {
   })
   @JoinColumn()
   phonenumber: Phonenumber;
+
+  @OneToOne(() => Profile,  profile => profile.user, {
+    cascade: true
+  })
+  @JoinColumn()
+  profile: Profile;
 
   @OneToMany(() => Address, address => address.user, {
     cascade: true

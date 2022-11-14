@@ -23,7 +23,7 @@ export class AddressService {
   }
 
   update(id: number, updateAddressDto: UpdateAddressDto): Promise<any> {
-    return  this.repository.update(id, updateAddressDto);
+    return this.repository.update(id, updateAddressDto);
   }
 
   remove(id: number) {

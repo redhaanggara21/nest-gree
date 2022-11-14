@@ -7,31 +7,32 @@ import { UpdatePhonenumberDto } from './dto/update-phonenumber.dto';
 export class PhonenumberController {
 
   constructor(
-    private phonenumberService: PhonenumberService
+    private readonly service: PhonenumberService
   ) {}
 
   @Post()
   create(@Body() createPhonenumberDto: CreatePhonenumberDto) {
-    return this.phonenumberService.create(createPhonenumberDto);
+    return this.service.create(createPhonenumberDto);
   }
 
   @Get()
   findAll() {
-    return this.phonenumberService.findAll();
+    console.log("haha");
+    return this.service.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.phonenumberService.findOne(+id);
+    return this.service.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePhonenumberDto: UpdatePhonenumberDto) {
-    return this.phonenumberService.update(+id, updatePhonenumberDto);
+    return this.service.update(+id, updatePhonenumberDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.phonenumberService.remove(+id);
+    return this.service.remove(+id);
   }
 }

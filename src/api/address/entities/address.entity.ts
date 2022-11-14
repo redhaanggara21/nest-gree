@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 import { User } from '../../user/user.entity';
-
+import { Profile } from 'src/api/profile/entities/profile.entity';
 @Entity()
 export class Address {
 
@@ -27,7 +27,7 @@ export class Address {
   @Column({ type: 'varchar', length: 120 })
   public country: string;
 
-  @Column({ nullable: false, type: "float", default: 0.0 })
+  @Column({ nullable: false, type: "float", default: 0 })
   public userId: number;
 
   @Column({ nullable: true, type: "float", default: 0 })
@@ -48,6 +48,15 @@ export class Address {
   // @ManyToOne(() => User, (user: User) => user.address)
   // public user: User;
   @ManyToOne(type => User, user => user.address)
-  @JoinColumn({name: 'user_id'})
+  @JoinColumn({
+    name: 'user_id',
+    // referencedColumnName: 'id'
+  })
   user: User;
+
+  @OneToOne(() => Profile,  profile => profile.user, {
+    cascade: true
+  })
+  @JoinColumn()
+  profile: Profile;
 }

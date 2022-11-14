@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PhonenumberService } from './phonenumber.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PhonenumberService } from './phonenumber.service';
 import { PhonenumberController } from './phonenumber.controller';
 import { Phonenumber } from './entities/phonenumber.entity';
 

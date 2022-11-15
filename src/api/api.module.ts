@@ -9,7 +9,7 @@ import { ProfileModule } from './profile/profile.module';
     UserModule,
     AddressModule,
     ProfileModule,
-    PhonenumberModule
+    // PhonenumberModule
   ],
 })
 export class ApiModule {}

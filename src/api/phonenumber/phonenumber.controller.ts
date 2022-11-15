@@ -17,7 +17,6 @@ export class PhonenumberController {
 
   @Get()
   findAll() {
-    console.log("haha");
     return this.service.findAll();
   }
 

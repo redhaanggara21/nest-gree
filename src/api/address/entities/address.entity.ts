@@ -27,9 +27,6 @@ export class Address {
   @Column({ type: 'varchar', length: 120 })
   public country: string;
 
-  @Column({ nullable: false, type: "float", default: 0 })
-  public userId: number;
-
   @Column({ nullable: true, type: "float", default: 0 })
   public user_id: number;
 
@@ -43,7 +40,7 @@ export class Address {
   public updatedAt!: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  public deleteAt!: Date;
+  public deletedAt!: Date;
 
   // @ManyToOne(() => User, (user: User) => user.address)
   // public user: User;
@@ -54,9 +51,9 @@ export class Address {
   })
   user: User;
 
-  @OneToOne(() => Profile,  profile => profile.user, {
-    cascade: true
-  })
-  @JoinColumn()
-  profile: Profile;
+  // @OneToOne(() => Profile,  profile => profile.user, {
+  //   cascade: true
+  // })
+  // @JoinColumn()
+  // profile: Profile;
 }

@@ -15,8 +15,15 @@ export class ProfileService {
     return this.repository.save(createProfileDto);
   }
 
-  findAll(): Promise<Profile[]> {
-    return this.repository.find();
+  async findAll(): Promise<Profile[]> {
+
+    // return this.repository.find();
+    const profiles =  await this.repository
+      .createQueryBuilder("profile")
+      .leftJoinAndSelect("profile.user", "user")
+      .getMany();
+
+    return profiles;
   }
 
   findOne(id: number): Promise<Profile>{

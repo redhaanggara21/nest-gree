@@ -8,26 +8,26 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class PhonenumberService {
 
-  // @InjectRepository(Phonenumber)
-  // private readonly repository: Repository<Phonenumber>;
+  @InjectRepository(Phonenumber)
+  private readonly repository: Repository<Phonenumber>;
 
   create(createPhonenumberDto: CreatePhonenumberDto) {
-    // return this.repository.save(createPhonenumberDto);
+    return this.repository.save(createPhonenumberDto);
   }
 
-  findAll() {
-    // return this.repository.find();
+  findAll(): Promise<Phonenumber[]> {
+    return this.repository.find();
   }
 
-  findOne(id: number){
-    // return this.repository.findOne(id);
+  findOne(id: number): Promise<Phonenumber> {
+    return this.repository.findOne(id);
   }
 
-  update(id: number, updatePhonenumberDto: UpdatePhonenumberDto) {
-    // return this.repository.update(id, updatePhonenumberDto);
+  update(id: number, updatePhonenumberDto: UpdatePhonenumberDto): Promise<any> {
+    return this.repository.update(id, updatePhonenumberDto);
   }
 
   remove(id: number) {
-    // return this.repository.delete(id);
+    return this.repository.delete(id);
   }
 }

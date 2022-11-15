@@ -31,5 +31,5 @@ export class Phonenumber {
   public updatedAt!: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  public deleteAt!: Date;
+  public deletedAt!: Date;
 }

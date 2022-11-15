@@ -19,36 +19,37 @@ export class UserService {
     return this.repository.save(user);
   }
 
-  findAll(): Promise<User[]> {
-    // return this.repository.find(
-    //   {
-    //     relations: ['images', 'user'],
-    //     // where: { user: { id: id } },
-    //   }
-    // );
-    // return this.repository.createQueryBuilder("user")
-    //   .innerJoinAndSelect("address.address", "address")
-    //     // .where("user_id = :userId", {userId: id})
-    //       .getMany();
-
+  async findAll(): Promise<User[]> {
     const users = this.repository
       .createQueryBuilder("user")
       .leftJoinAndSelect("user.address", "address")
       .leftJoinAndSelect("user.profile", "profile")
+      .distinct(true)
       .getMany();
 
     return users;
   }
 
-  findOne(id: number): Promise<User> {
-    return this.repository.findOne(id);
+  async findOne(id: number): Promise<User> {
+    const users = this.repository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.address", "address")
+      .leftJoinAndSelect("user.profile", "profile")
+      .where('user.id=:id',{id: id})
+      .distinct(true)
+      .getOne();
+
+    return users;
   }
 
   update(id: number, address: CreateUserDto): Promise<any>  {
     return this.repository.update(id, address);
   }
 
-  remove(id: number) {
-    return this.repository.delete(id);
+  async remove(id: number) {
+    const exist = await this.findOne(id);
+    exist.isActivated = false;
+    exist.deletedAt = new Date();
+    return this.repository.update(id, exist);
   }
 }

@@ -47,7 +47,7 @@ export class User {
   public updatedAt!: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  public deleteAt!: Date;
+  public deletedAt!: Date;
 
   // @OneToMany(() => Address, (address) => address)
   // address: Address[]
@@ -87,10 +87,9 @@ export class User {
   @JoinColumn()
   phonenumber: Phonenumber;
 
-  @OneToOne(() => Profile,  profile => profile.user, {
-    cascade: true
+  @OneToOne(() => Profile,  (profile) => profile.user,{
+      cascade: true
   })
-  @JoinColumn()
   profile: Profile;
 
   @OneToMany(() => Address, address => address.user, {

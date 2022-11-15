@@ -33,12 +33,13 @@ export class Profile {
   public updatedAt!: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  public deleteAt!: Date;
+  public deletedAt!: Date;
 
   @OneToOne(() => User, user => user.profile) // specify inverse side as a second parameter
   @JoinColumn({
     name: 'user_id',
     referencedColumnName: 'id'
   })
+  // dont need statement join colum here because already join by table user
   user: User;
 }

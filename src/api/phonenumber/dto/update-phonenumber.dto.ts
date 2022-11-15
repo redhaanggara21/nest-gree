@@ -1,6 +1,5 @@
 import {
-  IsNotEmpty,
-  IsString
+  IsNotEmpty
 } from "class-validator";
 
 export class UpdatePhonenumberDto {

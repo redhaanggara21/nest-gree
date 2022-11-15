@@ -6,19 +6,50 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
+
   @InjectRepository(User)
   private readonly repository: Repository<User>;
 
-  public getUser(id: number): Promise<User> {
-    return this.repository.findOne(id);
+  create(body: CreateUserDto): Promise<User> {
+    const user: User = new User();
+    user.name = body.name;
+    user.username = body.username;
+    user.email = body.email;
+    user.password = body.password;
+    return this.repository.save(user);
   }
 
-  public createUser(body: CreateUserDto): Promise<User> {
-    const user: User = new User();
+  async findAll(): Promise<User[]> {
+    const users = this.repository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.address", "address")
+      .leftJoinAndSelect("user.profile", "profile")
+      .distinct(true)
+      .getMany();
 
-    user.name = body.name;
-    user.email = body.email;
+    return users;
+  }
 
-    return this.repository.save(user);
+  async findOne(id: number): Promise<User> {
+    const users = this.repository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.address", "address")
+      .leftJoinAndSelect("user.profile", "profile")
+      .where('user.id=:id',{id: id})
+      .distinct(true)
+      .getOne();
+
+    return users;
+  }
+
+  update(id: number, address: CreateUserDto): Promise<any>  {
+    return this.repository.update(id, address);
+  }
+
+  async remove(id: number) {
+    const exist = await this.findOne(id);
+    exist.isActivated = false;
+    exist.deletedAt = new Date();
+    return this.repository.update(id, exist);
   }
 }

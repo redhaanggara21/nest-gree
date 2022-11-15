@@ -19,7 +19,7 @@ export class PhonenumberService {
     return this.repository.find();
   }
 
-  findOne(id: number): Promise<Phonenumber> {
+  findOne(id: any): Promise<Phonenumber> {
     return this.repository.findOne(id);
   }
 

@@ -12,7 +12,8 @@ import {
   UseInterceptors,
   Query,
   HttpCode,
-  HttpStatus
+  HttpStatus,
+  UseFilters
 } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
@@ -22,6 +23,8 @@ import * as bcrypt from 'bcrypt';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiPaginatedResponse } from '@/common/paginate/decorators';
 import { PageDto, PageOptionsDto } from '@/common/paginate/dtos';
+import { HttpExceptionFilter } from '@/common/exception-filter/http-exception.filter';
+import { CustomFuelStationException } from '@/common/exception-filter/custom-fuel-station-expection';
 @Controller('users')
 @ApiTags('Users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -39,12 +42,17 @@ export class UserController {
   @Get()
   // @UseGuards(JwtAuthGuard)
   // @UseInterceptors(ClassSerializerInterceptor)
-  @HttpCode(HttpStatus.OK)
+  @UseFilters(new HttpExceptionFilter())
   @ApiPaginatedResponse(CreateUserDto)
   async findAll(
-    @Query() pageOptionsDto: PageOptionsDto,
+    @Query() pageOptionsDto: PageOptionsDto
   ): Promise<PageDto<CreateUserDto>> {
-    return this.service.findAll(pageOptionsDto);
+    let data = await this.service.findAll(pageOptionsDto);
+    throw new CustomFuelStationException(
+      "success recived",
+       data,
+       HttpStatus.OK
+    );
   }
 
   @Get(':id')

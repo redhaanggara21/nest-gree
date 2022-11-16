@@ -10,12 +10,12 @@ import {
 } from "typeorm";
 
 import { User } from "src/api/user/user.entity";
-
+import { AbstractEntity } from "src/common/paginate/entities/abstract.entity";
 @Entity()
-export class Profile {
+export class Profile extends AbstractEntity{
 
-  @PrimaryGeneratedColumn()
-  id:number;
+  // @PrimaryGeneratedColumn()
+  // id:number;
 
   // @Column()
   // gender: string;
@@ -26,14 +26,14 @@ export class Profile {
   @Column()
   user_id: number;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  public createdAt!: Date;
+  // @CreateDateColumn({ type: 'timestamp' })
+  // public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  public updatedAt!: Date;
+  // @UpdateDateColumn({ type: 'timestamp' })
+  // public updatedAt!: Date;
 
-  @DeleteDateColumn({ type: 'timestamp' })
-  public deletedAt!: Date;
+  // @DeleteDateColumn({ type: 'timestamp' })
+  // public deletedAt!: Date;
 
   @OneToOne(() => User, user => user.profile) // specify inverse side as a second parameter
   @JoinColumn({

@@ -1,3 +1,4 @@
+import { PageDto, PageMetaDto, PageOptionsDto } from '@/common/paginate/dtos';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,15 +20,26 @@ export class UserService {
     return this.repository.save(user);
   }
 
-  async findAll(): Promise<User[]> {
-    const users = this.repository
-      .createQueryBuilder("user")
+  async findAll(
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<CreateUserDto>> {
+
+    const queryBuilder = this.repository.createQueryBuilder("user");
+    queryBuilder
       .leftJoinAndSelect("user.address", "address")
       .leftJoinAndSelect("user.profile", "profile")
       .distinct(true)
+      .orderBy('user.createdAt', pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take)
       .getMany();
 
-    return users;
+      const itemCount = await queryBuilder.getCount();
+      const { entities } = await queryBuilder.getRawAndEntities();
+
+      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+      return new PageDto(entities, pageMetaDto);
   }
 
   async findOne(id: number): Promise<User> {

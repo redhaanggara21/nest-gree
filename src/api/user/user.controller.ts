@@ -9,14 +9,22 @@ import {
   Delete,
   ClassSerializerInterceptor,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
+  Query,
+  HttpCode,
+  HttpStatus
 } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../user/auth/auth.guard';
 import * as bcrypt from 'bcrypt';
-@Controller('user')
+import { ApiTags } from '@nestjs/swagger';
+import { ApiPaginatedResponse } from '@/common/paginate/decorators';
+import { PageDto, PageOptionsDto } from '@/common/paginate/dtos';
+@Controller('users')
+@ApiTags('Users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly service: UserService) {}
 
@@ -29,10 +37,14 @@ export class UserController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
-  findAll() {
-    return this.service.findAll();
+  // @UseGuards(JwtAuthGuard)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  @HttpCode(HttpStatus.OK)
+  @ApiPaginatedResponse(CreateUserDto)
+  async findAll(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<CreateUserDto>> {
+    return this.service.findAll(pageOptionsDto);
   }
 
   @Get(':id')

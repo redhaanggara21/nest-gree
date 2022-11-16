@@ -1,26 +1,24 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  // PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
+  // CreateDateColumn,
+  // UpdateDateColumn,
+  // DeleteDateColumn,
   OneToMany,
   JoinColumn,
   OneToOne,
 } from 'typeorm';
-
+import { AbstractEntity } from "src/common/paginate/entities/abstract.entity";
 import { Address } from '../address/entities/address.entity';
 import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
 import { Exclude } from 'class-transformer';
 import { Profile } from '../profile/entities/profile.entity';
 
-
-
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  public id!: number;
+export class User extends AbstractEntity {
+  // @PrimaryGeneratedColumn()
+  // public id!: number;
 
   @Column({ type: 'varchar', length: 120 })
   public name: string;
@@ -42,17 +40,17 @@ export class User {
   @Column({ type: 'varchar', length: 120 })
   public password: string;
 
-  @Column({ type: 'boolean', default: true })
-  public isActivated: boolean;
+  // @Column({ type: 'boolean', default: true })
+  // public isActivated: boolean;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  public createdAt!: Date;
+  // @CreateDateColumn({ type: 'timestamp' })
+  // public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  public updatedAt!: Date;
+  // @UpdateDateColumn({ type: 'timestamp' })
+  // public updatedAt!: Date;
 
-  @DeleteDateColumn({ type: 'timestamp' })
-  public deletedAt!: Date;
+  // @DeleteDateColumn({ type: 'timestamp' })
+  // public deletedAt!: Date;
 
   // @OneToMany(() => Address, (address) => address)
   // address: Address[]

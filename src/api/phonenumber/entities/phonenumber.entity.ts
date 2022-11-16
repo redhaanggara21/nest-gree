@@ -8,12 +8,13 @@ import {
   DeleteDateColumn
 } from "typeorm";
 import { User } from '../../user/user.entity';
+import { AbstractEntity } from "src/common/paginate/entities/abstract.entity";
 
 @Entity()
-export class Phonenumber {
+export class Phonenumber extends AbstractEntity {
 
-  @PrimaryGeneratedColumn()
-  public id: number;
+  // @PrimaryGeneratedColumn()
+  // public id: number;
 
   @Column()
   public phoneNumber: number;
@@ -24,12 +25,12 @@ export class Phonenumber {
   @OneToOne(() => User, user => user.phonenumber)
   public user: User;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  public createdAt!: Date;
+  // @CreateDateColumn({ type: 'timestamp' })
+  // public createdAt!: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  public updatedAt!: Date;
+  // @UpdateDateColumn({ type: 'timestamp' })
+  // public updatedAt!: Date;
 
-  @DeleteDateColumn({ type: 'timestamp' })
-  public deletedAt!: Date;
+  // @DeleteDateColumn({ type: 'timestamp' })
+  // public deletedAt!: Date;
 }

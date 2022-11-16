@@ -18,7 +18,7 @@ export class AddressService {
     return this.repository.find();
   }
 
-  findOne(id: number): Promise<Address>{
+  findOne(id: any): Promise<Address>{
     return  this.repository.findOne(id);
   }
 

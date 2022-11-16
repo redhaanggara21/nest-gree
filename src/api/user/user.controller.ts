@@ -2,29 +2,49 @@ import {
   Body,
   Controller,
   Get,
-  Inject,
   Param,
   ParseIntPipe,
   Post,
   Patch,
-  Delete
+  Delete,
+  ClassSerializerInterceptor,
+  UseGuards,
+  UseInterceptors,
+  Query,
+  HttpCode,
+  HttpStatus
 } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
-
-@Controller('user')
+import { JwtAuthGuard } from '../user/auth/auth.guard';
+import * as bcrypt from 'bcrypt';
+import { ApiTags } from '@nestjs/swagger';
+import { ApiPaginatedResponse } from '@/common/paginate/decorators';
+import { PageDto, PageOptionsDto } from '@/common/paginate/dtos';
+@Controller('users')
+@ApiTags('Users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly service: UserService) {}
 
   @Post()
-  create(@Body() body: CreateUserDto): Promise<User> {
+  async create(@Body() body: CreateUserDto): Promise<User> {
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(body.password, saltOrRounds);
+    body.password = hashedPassword;
     return this.service.create(body);
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  // @UseGuards(JwtAuthGuard)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  @HttpCode(HttpStatus.OK)
+  @ApiPaginatedResponse(CreateUserDto)
+  async findAll(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<CreateUserDto>> {
+    return this.service.findAll(pageOptionsDto);
   }
 
   @Get(':id')

@@ -13,7 +13,11 @@ import {
 
 import { Address } from '../address/entities/address.entity';
 import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
+import { Exclude } from 'class-transformer';
 import { Profile } from '../profile/entities/profile.entity';
+
+
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -22,13 +26,14 @@ export class User {
   @Column({ type: 'varchar', length: 120 })
   public name: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 120, nullable: true })
   public username: string;
 
   @Column(
     {
       type: 'varchar',
       length: 120,
+      nullable: true
       // unique: true
     }
   )
@@ -96,6 +101,9 @@ export class User {
     cascade: true
   })
   address: Address[];
+
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  public lastLoginAt: Date | null;
 
   addAddrress(address: Address) {
     if(this.address == null) {

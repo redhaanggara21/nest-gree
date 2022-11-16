@@ -26,7 +26,7 @@ export class ProfileService {
     return profiles;
   }
 
-  findOne(id: number): Promise<Profile>{
+  findOne(id: any): Promise<Profile>{
     return  this.repository.findOne(id);
   }
 

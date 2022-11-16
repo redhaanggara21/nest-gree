@@ -42,7 +42,7 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   @ApiPaginatedResponse(CreateUserDto)
   async findAll(
-    @Query() pageOptionsDto: PageOptionsDto,
+    @Query() pageOptionsDto: PageOptionsDto
   ): Promise<PageDto<CreateUserDto>> {
     return this.service.findAll(pageOptionsDto);
   }

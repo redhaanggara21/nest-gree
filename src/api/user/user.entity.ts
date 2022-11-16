@@ -1,4 +1,3 @@
-import { profile } from 'console';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -39,6 +38,7 @@ export class User {
   )
   public email: string;
 
+  @Exclude()
   @Column({ type: 'varchar', length: 120 })
   public password: string;
 

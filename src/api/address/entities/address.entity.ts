@@ -9,7 +9,7 @@ import {
   ManyToOne,
   JoinColumn
 } from 'typeorm';
-
+import { ApiProperty } from "@nestjs/swagger";
 import { User } from '../../user/user.entity';
 import { Profile } from 'src/api/profile/entities/profile.entity';
 @Entity()
@@ -19,15 +19,19 @@ export class Address {
   public id!: number;
 
   @Column({ type: 'varchar', length: 120 })
+  @ApiProperty()
   public street: string;
 
   @Column({ type: 'varchar', length: 120 })
+  @ApiProperty()
   public city: string;
 
   @Column({ type: 'varchar', length: 120 })
+  @ApiProperty()
   public country: string;
 
   @Column({ nullable: true, type: "float", default: 0 })
+  @ApiProperty()
   public user_id: number;
 
   @Column({ type: 'boolean', default: false })

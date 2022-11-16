@@ -21,7 +21,7 @@ export class UserService {
   }
 
   async findAll(
-    pageOptionsDto: PageOptionsDto,
+    pageOptionsDto: PageOptionsDto
   ): Promise<PageDto<CreateUserDto>> {
 
     const queryBuilder = this.repository.createQueryBuilder("user");
@@ -29,9 +29,10 @@ export class UserService {
       .leftJoinAndSelect("user.address", "address")
       .leftJoinAndSelect("user.profile", "profile")
       .distinct(true)
+      .where("user.email LIKE :s ",{ s: `%${pageOptionsDto.email}%` })
       .orderBy('user.createdAt', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
-      .take(pageOptionsDto.take)
+      .take(pageOptionsDto.limit)
       .getMany();
 
       const itemCount = await queryBuilder.getCount();

@@ -13,7 +13,8 @@ import {
   Query,
   HttpCode,
   HttpStatus,
-  UseFilters
+  UseFilters,
+  SetMetadata
 } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
@@ -25,6 +26,7 @@ import { ApiPaginatedResponse } from '@/common/paginate/decorators';
 import { PageDto, PageOptionsDto } from '@/common/paginate/dtos';
 import { HttpExceptionFilter } from '@/common/exception-filter/http-exception.filter';
 import { CustomFuelStationException } from '@/common/exception-filter/custom-fuel-station-expection';
+import { Roles } from '@/common/custom-decorators/role-decarators';
 @Controller('users')
 @ApiTags('Users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -42,6 +44,8 @@ export class UserController {
   @Get()
   // @UseGuards(JwtAuthGuard)
   // @UseInterceptors(ClassSerializerInterceptor)
+  // @SetMetadata('roles', ['admin'])
+  @Roles('admin')
   @UseFilters(new HttpExceptionFilter())
   @ApiPaginatedResponse(CreateUserDto)
   async findAll(

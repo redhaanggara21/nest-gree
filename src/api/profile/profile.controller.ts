@@ -17,7 +17,6 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '@/utill';
-// import { editFileName, imageFileFilter } from './utils/file-upload.utils';
 
 @Controller('profile')
 export class ProfileController {

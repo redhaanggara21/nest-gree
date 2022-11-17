@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  ValidationPipe
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
@@ -8,13 +13,14 @@ import { getEnvPath } from './common/helper/env.helper';
 import { logger } from './common/middleware/logger.middleware';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { MulterModule } from '@nestjs/platform-express';
+import { APP_PIPE } from '@nestjs/core';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
     MulterModule.register({
-      dest: './files',
+      dest: './upload-files',
     }),
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
@@ -25,6 +31,10 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   ],
   providers: [
     AppService,
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    }
   ],
 })
 

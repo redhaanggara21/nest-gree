@@ -15,10 +15,10 @@ $ npm install
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run start:development
 
 # production mode
-$ npm run start:prod
+$ npm run start:production
 ```
 
 ## Test

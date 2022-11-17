@@ -54,7 +54,7 @@ export class ProfileController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './files',
+        destination: './upload-files/images',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
@@ -79,7 +79,7 @@ export class ProfileController {
   @UseInterceptors(
     FilesInterceptor('image', 20, {
       storage: diskStorage({
-        destination: './files',
+        destination: './upload-files/images',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
@@ -100,6 +100,6 @@ export class ProfileController {
   @Get('image/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     console.log(image);
-    return res.sendFile(image, { root: './files' });
+    return res.sendFile(image, { root: './upload-files/images' });
   }
 }

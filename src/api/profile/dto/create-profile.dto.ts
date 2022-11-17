@@ -1,9 +1,10 @@
 import {
-  IsNotEmpty
+  IsNotEmpty,
+  IsOptional
 } from "class-validator";
 
 export class CreateProfileDto {
-  @IsNotEmpty()
+  @IsOptional()
   photo: string;
 
   @IsNotEmpty()

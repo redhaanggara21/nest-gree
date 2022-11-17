@@ -50,7 +50,7 @@ export class ProfileController {
     return this.service.remove(+id);
   }
 
-  @Post('/upload')
+  @Post('/profile-create')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -60,11 +60,18 @@ export class ProfileController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadedFile(@UploadedFile() file) {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
+  async profileCreate(
+    @UploadedFile() file,
+    @Body() body: CreateProfileDto
+  ) {
+    const newProfiles = new CreateProfileDto();
+    newProfiles.photo = file.filename;
+    newProfiles.user_id = body.user_id;
+    // const response = {
+    //   originalname: file.originalname,
+    //   filename: file.filename,
+    // };
+    const response = this.service.create(newProfiles);
     return response;
   }
 
@@ -78,7 +85,7 @@ export class ProfileController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadMultipleFiles(@UploadedFiles() files) {
+  async uploadMultipleFiles(@UploadedFiles() files: any) {
     const response = [];
     files.forEach(file => {
       const fileReponse = {
@@ -90,8 +97,9 @@ export class ProfileController {
     return response;
   }
 
-  @Get(':imgpath')
+  @Get('image/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    console.log(image);
     return res.sendFile(image, { root: './files' });
   }
 }

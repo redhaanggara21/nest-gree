@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/exception-filter/http-exception.filter';
+// import { HttpExceptionFilter } from './common/exception-filter/http-exception.filter';
 import { setupSwagger } from './utill';
 
 async function bootstrap() {

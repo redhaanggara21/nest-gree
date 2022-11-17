@@ -7,11 +7,15 @@ import { AppService } from './app.service';
 import { getEnvPath } from './common/helper/env.helper';
 import { logger } from './common/middleware/logger.middleware';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
+import { MulterModule } from '@nestjs/platform-express';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './files',
+    }),
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule

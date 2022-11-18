@@ -40,7 +40,7 @@ export class UserController {
   }
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   // @UseInterceptors(ClassSerializerInterceptor)
   @UseFilters(new HttpExceptionFilter())
   @ApiPaginatedResponse(CreateUserDto)

@@ -4,6 +4,7 @@ import {
   OneToMany,
   JoinColumn,
   OneToOne,
+  Generated,
 } from 'typeorm';
 import { AbstractEntity } from "src/common/paginate/entities/abstract.entity";
 import { Address } from '../address/entities/address.entity';
@@ -29,11 +30,11 @@ export class User extends AbstractEntity {
       // unique: true
     }
   )
-  public email: string;
+  public email!: string;
 
   @Exclude()
   @Column({ type: 'varchar', length: 120 })
-  public password: string;
+  public password!: string;
 
 
   @Column({
@@ -46,7 +47,7 @@ export class User extends AbstractEntity {
   @Column({
     default: 0,
   })
-  tokenVersion: number;
+  tokenVersion!: number;
 
   @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
     cascade: true

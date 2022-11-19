@@ -4,8 +4,8 @@ import { RegisterDto, LoginDto } from './auth.dto';
 import { JwtAuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
-import { User } from '../user.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../user/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -18,7 +18,7 @@ export class AuthController {
     return this.service.register(body);
   }
 
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('login')
   private login(@Body() body: LoginDto): Promise<string | never> {
     return this.service.login(body);

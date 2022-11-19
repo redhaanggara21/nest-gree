@@ -7,7 +7,7 @@ import { AuthHelper } from './auth.helper';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './auth.strategy';
 import { ConfigService } from '@nestjs/config';
-import { User } from '../user.entity';
+import { User } from '../user/user.entity';
 
 @Module({
   imports: [

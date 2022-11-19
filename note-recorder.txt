@@ -65,3 +65,10 @@ BAD_GATEWAY = 502
 SERVICE_UNAVAILABLE = 503
 GATEWAY_TIMEOUT = 504
 HTTP_VERSION_NOT_SUPPORTED = 505
+
+
+
+thanks for the references 
+https://leoromanovsky.medium.com/a-blog-without-an-author-typeorm-creates-confusion-with-required-columns-and-optional-foreign-keys-1a3f932d4e67
+
+https://orkhan.gitbook.io/typeorm/docs/many-to-one-one-to-many-relations

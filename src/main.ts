@@ -29,6 +29,8 @@ async function bootstrap() {
 
   app.useGlobalFilters(new HttpExceptionFilter())
 
+  app.enableCors();
+
   setupSwagger(app);
 
   await app.listen(port, () => {

@@ -13,6 +13,10 @@ export class RegisterDto {
   @IsString()
   @IsOptional()
   public readonly name?: string;
+
+  @IsString()
+  @IsOptional()
+  public readonly username?: string;
 }
 
 export class LoginDto {

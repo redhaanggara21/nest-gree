@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user.entity';
 import { Repository } from 'typeorm';
+import { User } from '../user/user.entity';
 import { RegisterDto, LoginDto } from './auth.dto';
 import { AuthHelper } from './auth.helper';
 
@@ -21,12 +21,13 @@ export class AuthService {
       throw new HttpException('Conflict', HttpStatus.CONFLICT);
     }
 
+    const special = (Math.random() + 1).toString(36).substring(7);
     user = new User();
-
     user.name = name;
+    user.username = '@' + name.replace(/[^A-Z0-9]/ig, "") + "_" + special;
+    user.username = user.username.toLowerCase();
     user.email = email;
     user.password = this.helper.encodePassword(password);
-
     return this.repository.save(user);
   }
 

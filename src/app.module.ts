@@ -16,7 +16,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 @Module({
   imports: [
     MulterModule.register({
-      dest: './files',
+      dest: './files-files',
     }),
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
@@ -26,10 +26,11 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     AppController
   ],
   providers: [
-    AppService,{
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    }
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // }
 
   ],
 })

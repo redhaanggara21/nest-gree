@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user.entity';
+import { User } from '@/api/user/user.entity';
 import { Repository } from 'typeorm';
 import { RegisterDto, LoginDto } from './auth.dto';
 import { AuthHelper } from './auth.helper';
@@ -22,9 +22,9 @@ export class AuthService {
     }
 
     user = new User();
-
     user.name = name;
     user.email = email;
+    user.username = email;
     user.password = this.helper.encodePassword(password);
 
     return this.repository.save(user);
@@ -51,7 +51,11 @@ export class AuthService {
 
   public async refresh(user: User): Promise<string> {
     this.repository.update(user.id, { lastLoginAt: new Date() });
-
     return this.helper.generateToken(user);
+  }
+
+  public async logout(user: User): Promise<any> {
+    const res = this.repository.update(user.id, { lastLoginAt: new Date() });
+    return res;
   }
 }

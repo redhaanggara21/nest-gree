@@ -11,8 +11,12 @@ export class RegisterDto {
   public readonly password: string;
 
   @IsString()
-  @IsOptional()
   public readonly name?: string;
+
+  @Trim()
+  @IsString()
+  @IsOptional()
+  public readonly username?: string;
 }
 
 export class LoginDto {

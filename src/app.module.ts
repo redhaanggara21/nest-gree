@@ -24,7 +24,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     AppController
   ],
   providers: [
-    AppService,
+    AppService
   ],
 })
 

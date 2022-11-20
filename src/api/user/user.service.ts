@@ -1,5 +1,5 @@
 import { PageDto, PageMetaDto, PageOptionsDto } from '@/common/paginate/dtos';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './user.dto';
@@ -37,9 +37,7 @@ export class UserService {
 
       const itemCount = await queryBuilder.getCount();
       const { entities } = await queryBuilder.getRawAndEntities();
-
       const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
       return new PageDto(entities, pageMetaDto);
   }
 
@@ -65,4 +63,21 @@ export class UserService {
     exist.deletedAt = new Date();
     return this.repository.update(id, exist);
   }
+
+  async getByEmail(email: any) {
+    const user = await this.repository.findOne(email);
+    if (user) {
+      return user;
+    }
+    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+  }
+
+  async getById(id: any) {
+    const user = await this.repository.findOne(id);
+    if (user) {
+      return user;
+    }
+    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+  }
+
 }

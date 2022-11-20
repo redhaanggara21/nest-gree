@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@n
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../user.entity';
+import { User } from '@/api/user/user.entity';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -39,7 +39,6 @@ export class AuthHelper {
   // Encode User's password
   public encodePassword(password: string): string {
     const salt: string = bcrypt.genSaltSync(10);
-
     return bcrypt.hashSync(password, salt);
   }
 

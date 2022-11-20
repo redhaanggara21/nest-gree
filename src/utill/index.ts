@@ -1,2 +1,2 @@
 export * from './setup-swagger';
-export { imageFileFilter, editFileName } from './file-uploading'
+export { imageFileFilter, editFileName } from './file-uploading';

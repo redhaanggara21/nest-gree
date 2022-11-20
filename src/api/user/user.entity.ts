@@ -36,7 +36,6 @@ export class User extends AbstractEntity {
   @Column({ type: 'varchar', length: 120 })
   public password!: string;
 
-
   @Column({
     type: 'enum',
     enum: Role,
@@ -48,7 +47,7 @@ export class User extends AbstractEntity {
     default: 0,
   })
   tokenVersion!: number;
-
+  
   @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
     cascade: true
   })

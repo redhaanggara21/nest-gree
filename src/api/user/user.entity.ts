@@ -51,6 +51,7 @@ export class User extends AbstractEntity {
 
   // @DeleteDateColumn({ type: 'timestamp' })
   // public deletedAt!: Date;
+  // update
 
   // @OneToMany(() => Address, (address) => address)
   // address: Address[]

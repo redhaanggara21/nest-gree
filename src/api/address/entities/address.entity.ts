@@ -35,8 +35,8 @@ export class Address extends AbstractEntity{
   @ApiProperty()
   public user_id: number;
 
-  @Column({ type: 'boolean', default: false })
-  public isDeleted: boolean;
+   // @Column({ type: 'boolean', default: true })
+  // public isActivated: boolean;
 
   // @CreateDateColumn({ type: 'timestamp' })
   // public createdAt!: Date;

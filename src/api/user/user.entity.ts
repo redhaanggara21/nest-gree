@@ -40,50 +40,6 @@ export class User extends AbstractEntity {
   @Column({ type: 'varchar', length: 120 })
   public password: string;
 
-  // @Column({ type: 'boolean', default: true })
-  // public isActivated: boolean;
-
-  // @CreateDateColumn({ type: 'timestamp' })
-  // public createdAt!: Date;
-
-  // @UpdateDateColumn({ type: 'timestamp' })
-  // public updatedAt!: Date;
-
-  // @DeleteDateColumn({ type: 'timestamp' })
-  // public deletedAt!: Date;
-
-  // @OneToMany(() => Address, (address) => address)
-  // address: Address[]
-
-  // @OneToMany(() => Address, address => address.userId, {
-  //   cascade: true
-  // })
-  // // @JoinColumn({ name: 'userId' })
-  // address: Address[];
-
-  // @ManyToOne(() => gender, (gender) => gender.photos)
-  // @JoinColumn({ name: 'gender_id' })
-  // gender: gender;
-
-
-  // @OneToMany(() => Address, (address) => address.user)
-  // address: Address[];
-  // @OneToOne(() => Address, {
-  //   eager: true,
-  //   cascade: true
-  // })
-  // @JoinColumn()
-  // public address: Address;
-
-  // @OneToMany(type => Address, Address => Address)
-  // @JoinColumn({
-  //   name: "userId",
-  //   referencedColumnName: "id"
-  // })
-  // address: Address[];
-
-  // @OneToMany(type => Address, address => address.id)
-
   @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
     cascade: true
   })

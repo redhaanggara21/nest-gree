@@ -1,24 +1,20 @@
 import {
   Entity,
-  // PrimaryGeneratedColumn,
   Column,
-  // CreateDateColumn,
-  // UpdateDateColumn,
-  // DeleteDateColumn,
   OneToMany,
   JoinColumn,
   OneToOne,
+  Generated,
 } from 'typeorm';
 import { AbstractEntity } from "src/common/paginate/entities/abstract.entity";
 import { Address } from '../address/entities/address.entity';
 import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
 import { Exclude } from 'class-transformer';
 import { Profile } from '../profile/entities/profile.entity';
+import { Role } from './role.enum';
 
 @Entity()
 export class User extends AbstractEntity {
-  // @PrimaryGeneratedColumn()
-  // public id!: number;
 
   @Column({ type: 'varchar', length: 120 })
   public name: string;
@@ -30,16 +26,28 @@ export class User extends AbstractEntity {
     {
       type: 'varchar',
       length: 120,
-      nullable: true
+      nullable: true,
       // unique: true
     }
   )
-  public email: string;
+  public email!: string;
 
   @Exclude()
   @Column({ type: 'varchar', length: 120 })
-  public password: string;
+  public password!: string;
 
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default:  Role.USER
+  })
+  public roles: Role[];
+
+  @Column({
+    default: 0,
+  })
+  tokenVersion!: number;
+  
   @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
     cascade: true
   })

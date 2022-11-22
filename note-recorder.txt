@@ -65,3 +65,5 @@ BAD_GATEWAY = 502
 SERVICE_UNAVAILABLE = 503
 GATEWAY_TIMEOUT = 504
 HTTP_VERSION_NOT_SUPPORTED = 505
+
+https://github.com/jnesiscompany/nestjs-dynamic-databases/blob/master/nestjs-dynamic-databases/src/common/config/orm.config.ts

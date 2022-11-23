@@ -10,7 +10,11 @@ import { logger } from './common/middleware/logger.middleware';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { CarManufacturersModule } from './api/car-manufacturers/car-manufacturers.module';
 import { GraphQLModule } from '@nestjs/graphql';
+import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
+import { RecipesModule } from './api/recipes/recipes.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -26,11 +30,6 @@ const databasesConfig = getDatabaseSystemIds().map((systemId) => {
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      debug: false,
-      playground: false,
-    }),
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule,

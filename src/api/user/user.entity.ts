@@ -14,6 +14,7 @@ import { Address } from '../address/entities/address.entity';
 import { Phonenumber } from '../phoneNumber/entities/phonenumber.entity';
 import { Exclude } from 'class-transformer';
 import { Profile } from '../profile/entities/profile.entity';
+import { Role } from './role.enum';
 
 @Entity()
 export class User extends AbstractEntity {
@@ -39,6 +40,13 @@ export class User extends AbstractEntity {
   @Exclude()
   @Column({ type: 'varchar', length: 120 })
   public password: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default:  Role.User
+  })
+  public role: Role[];
 
   @OneToOne(() => Phonenumber,  phonenumber => phonenumber.user, {
     cascade: true

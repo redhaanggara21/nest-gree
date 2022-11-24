@@ -2,8 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-directive @upper on FIELD_DEFINITION
-
 """recipe """
 type Recipe {
   id: ID!
@@ -20,6 +18,44 @@ type Subscribed {
   isSubscribed: Boolean
 }
 
+type Category {
+  id: Float!
+  name: String!
+  employee: Employee!
+  employeeId: Float
+}
+
+type Employee {
+  id: Float!
+  firstname: String!
+  lastname: String!
+  designation: String!
+  city: String
+  project: Project
+  projectId: Float
+  categories: [Category!]
+}
+
+type Project {
+  id: Float!
+  name: String!
+  code: Int!
+  employees: Employee
+}
+
+type Book {
+  id: ID!
+  title: String!
+  isbn: String!
+  author: Author!
+}
+
+type Author {
+  id: ID!
+  name: String!
+  books: [Book!]!
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -27,6 +63,18 @@ type Query {
   recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
   subscribed(id: Float!): Subscribed
+  findOneProject(id: Int!): Project!
+  findAllProjects: [Project!]!
+  findAllEmployee: [Employee!]!
+  findOneEmployee(id: Int!): Employee!
+  category(id: Int!): Category!
+  authors: [Author!]!
+  books: [Book!]!
+  book(input: FindBookInput!): Book!
+}
+
+input FindBookInput {
+  id: Int!
 }
 
 type Mutation {
@@ -35,6 +83,16 @@ type Mutation {
   createSubscribed(createSubscribedInput: CreateSubscribedInput!): Subscribed!
   updateSubscribed(updateSubscribedInput: UpdateSubscribedInput!): Subscribed!
   removeSubscribed(deleteSubscribeInput: DeleteSubscribeInput!): Subscribed!
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  updateProject(updateProjectInput: UpdateProjectInput!): Project!
+  removeProject(id: Int!): Project!
+  createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  updateEmployee(updateEmployeeInput: UpdateEmployeeInput!): Employee!
+  removeEmployee(id: Int!): Employee!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+  createBook(input: CreateBookInput!): Book!
 }
 
 input CreateRecipeDto {
@@ -74,6 +132,50 @@ input UpdateSubscribedInput {
 
 input DeleteSubscribeInput {
   id: Float!
+}
+
+input CreateProjectInput {
+  name: String!
+  code: Int!
+}
+
+input UpdateProjectInput {
+  name: String!
+  code: Int!
+  id: Float!
+}
+
+input CreateEmployeeInput {
+  firstname: String!
+  lastname: String!
+  designation: String!
+  city: String
+}
+
+input UpdateEmployeeInput {
+  firstname: String!
+  lastname: String!
+  designation: String!
+  city: String
+  id: Float!
+}
+
+input CreateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateBookInput {
+  id: ID!
+  title: String!
+  isbn: String!
+  author: Int!
 }
 
 type Subscription {

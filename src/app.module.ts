@@ -20,6 +20,8 @@ import { LogAccessModule } from './log-access/log-access.module';
 import { UserRecomendedModule } from './user-recomended/user-recomended.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import * as Joi from '@hapi/joi';
+import { DomainModule } from './domain/domain.module';
+import { AppoloModule } from './appolo/appolo.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -39,24 +41,32 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       envFilePath,
       isGlobal: true
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: 'schema.gql',
-      transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
-      installSubscriptionHandlers: true,
+    GraphQLModule.forRoot({
+      // autoSchemaFile: true,
       driver: ApolloDriver,
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      buildSchemaOptions: {
-        directives: [
-          new GraphQLDirective({
-            name: 'upper',
-            locations: [DirectiveLocation.FIELD_DEFINITION],
-          }),
-        ],
-      },
+      autoSchemaFile: 'schema.gql',
+      // definitions: {
+      //   path: join(process.cwd(), 'src/graphql.schama.ts'),
+      //   outputAs: 'class'
+      // },
+      // transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
+      // installSubscriptionHandlers: true,
+      // driver: ApolloDriver,
+      // playground: false,
+      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      //   buildSchemaOptions: {
+      //     directives: [
+      //       new GraphQLDirective({
+      //         name: 'upper',
+      //         locations: [DirectiveLocation.FIELD_DEFINITION],
+      //       }),
+      //     ],
+      //   },
     }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule,
+    DomainModule,
+    AppoloModule
     // ...databasesConfig,
     // CarManufacturersModule,
     // PointModule,

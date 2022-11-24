@@ -1,0 +1,24 @@
+type Point {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreatePointInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdatePointInput {
+  id: Int!
+}
+
+type Query {
+  point: [Point]!
+  point(id: Int!): Point
+}
+
+type Mutation {
+  createPoint(createPointInput: CreatePointInput!): Point!
+  updatePoint(updatePointInput: UpdatePointInput!): Point!
+  removePoint(id: Int!): Point
+}

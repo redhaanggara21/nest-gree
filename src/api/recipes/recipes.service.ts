@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NewRecipeInput } from './dto/create-recipe.dto';
+import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { RecipesArgs } from './dto/reciepes.args';
 import { Recipe } from './models/recipe.model';
 
@@ -11,7 +11,7 @@ export class RecipesService {
    * Left for demonstration purposes
    */
 
-  async create(data: NewRecipeInput): Promise<Recipe> {
+   async create(data: CreateRecipeDto): Promise<Recipe> {
     return {} as any;
   }
 

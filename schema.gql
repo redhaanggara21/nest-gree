@@ -1,0 +1,81 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""recipe """
+type Recipe {
+  id: ID!
+  description: String
+  creationDate: Date!
+  ingredients: [String!]!
+}
+
+type Subscribed {
+  id: Int!
+  user_id: Int!
+  explain: String!
+  price: Int!
+  isSubscribed: Boolean
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Query {
+  recipe(id: String!): Recipe!
+  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
+  subscribed(id: Float!): Subscribed
+}
+
+type Mutation {
+  addRecipe(newRecipeData: CreateRecipeDto!): Recipe!
+  removeRecipe(id: String!): Boolean!
+  createSubscribed(createSubscribedInput: CreateSubscribedInput!): Subscribed!
+  updateSubscribed(updateSubscribedInput: UpdateSubscribedInput!): Subscribed!
+  removeSubscribed(deleteSubscribeInput: DeleteSubscribeInput!): Subscribed!
+}
+
+input CreateRecipeDto {
+  title: String!
+  description: String
+  ingredients: [String!]!
+}
+
+input CreateSubscribedInput {
+  """Example field (subs id = 2333)"""
+  user_id: Int!
+
+  """Example field (subs explain = the user decision for subs)"""
+  explain: String!
+
+  """Example field (subs price = 2000)"""
+  price: Int!
+
+  """Example field (subs subscribed = true)"""
+  isSubscribed: Boolean!
+}
+
+input UpdateSubscribedInput {
+  """Example field (subs id = 2333)"""
+  user_id: Int
+
+  """Example field (subs explain = the user decision for subs)"""
+  explain: String
+
+  """Example field (subs price = 2000)"""
+  price: Int
+
+  """Example field (subs subscribed = true)"""
+  isSubscribed: Boolean
+  id: Int!
+}
+
+input DeleteSubscribeInput {
+  id: Float!
+}
+
+type Subscription {
+  recipeAdded: Recipe!
+}

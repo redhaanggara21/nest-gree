@@ -15,26 +15,53 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { RecipesModule } from './api/recipes/recipes.module';
+import { PointModule } from './point/point.module';
+import { LogAccessModule } from './log-access/log-access.module';
+import { UserRecomendedModule } from './user-recomended/user-recomended.module';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import * as Joi from '@hapi/joi';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 // database connection for each system id
-const databasesConfig = getDatabaseSystemIds().map((systemId) => {
-  return TypeOrmModule.forRootAsync({
-    name: `database-${systemId}`,
-    imports: [ConfigModule.forFeature(ormConfig)],
-    useFactory: (config: ConfigService) => config.get(`orm.${systemId}`),
-    inject: [ConfigService],
-  });
-});
+// const databasesConfig = getDatabaseSystemIds().map((systemId) => {
+//   return TypeOrmModule.forRootAsync({
+//     name: `database-${systemId}`,
+//     imports: [ConfigModule.forFeature(ormConfig)],
+//     useFactory: (config: ConfigService) => config.get(`orm.${systemId}`),
+//     inject: [ConfigService],
+//   });
+// });
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath, isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath,
+      isGlobal: true
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      autoSchemaFile: 'schema.gql',
+      transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
+      installSubscriptionHandlers: true,
+      driver: ApolloDriver,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      buildSchemaOptions: {
+        directives: [
+          new GraphQLDirective({
+            name: 'upper',
+            locations: [DirectiveLocation.FIELD_DEFINITION],
+          }),
+        ],
+      },
+    }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule,
-    ...databasesConfig,
-    CarManufacturersModule,
+    // ...databasesConfig,
+    // CarManufacturersModule,
+    // PointModule,
+    // LogAccessModule,
+    // UserRecomendedModule,
   ],
   controllers: [
     AppController

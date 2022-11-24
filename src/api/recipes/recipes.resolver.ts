@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { NewRecipeInput } from './dto/create-recipe.dto';
+import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { RecipesArgs } from './dto/reciepes.args';
 import { Recipe } from './models/recipe.model';
 import { RecipesService } from './recipes.service';
@@ -28,7 +28,7 @@ export class RecipesResolver {
 
   @Mutation(returns => Recipe)
   async addRecipe(
-    @Args('newRecipeData') newRecipeData: NewRecipeInput,
+    @Args('newRecipeData') newRecipeData: CreateRecipeDto,
   ): Promise<Recipe> {
     const recipe = await this.recipesService.create(newRecipeData);
     pubSub.publish('recipeAdded', { recipeAdded: recipe });

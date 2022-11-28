@@ -25,7 +25,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     }),
     CacheModule.register({
       isGlobal: true,
-      store: redisStore,
+      // gstore: redisStore,
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
       username: process.env.REDIS_USERNAME, // new property

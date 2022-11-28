@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, CacheModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
@@ -23,17 +23,11 @@ import * as Joi from '@hapi/joi';
 import { DomainModule } from './domain/domain.module';
 import { AppoloModule } from './appolo/appolo.module';
 
-const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
-// database connection for each system id
-// const databasesConfig = getDatabaseSystemIds().map((systemId) => {
-//   return TypeOrmModule.forRootAsync({
-//     name: `database-${systemId}`,
-//     imports: [ConfigModule.forFeature(ormConfig)],
-//     useFactory: (config: ConfigService) => config.get(`orm.${systemId}`),
-//     inject: [ConfigService],
-//   });
-// });
+//import redisStore from 'cache-manager-redis-store';
+import * as redisStore from 'cache-manager-redis-store';
+
+const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
   imports: [
@@ -41,27 +35,15 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       envFilePath,
       isGlobal: true
     }),
+    CacheModule.register({
+      isGlobal: true,
+      host: 'localhost',
+      port: 6379,
+      store: redisStore
+    }),
     GraphQLModule.forRoot({
-      // autoSchemaFile: true,
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
-      // definitions: {
-      //   path: join(process.cwd(), 'src/graphql.schama.ts'),
-      //   outputAs: 'class'
-      // },
-      // transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
-      // installSubscriptionHandlers: true,
-      // driver: ApolloDriver,
-      // playground: false,
-      // plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      //   buildSchemaOptions: {
-      //     directives: [
-      //       new GraphQLDirective({
-      //         name: 'upper',
-      //         locations: [DirectiveLocation.FIELD_DEFINITION],
-      //       }),
-      //     ],
-      //   },
     }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule,

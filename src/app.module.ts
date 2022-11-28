@@ -1,25 +1,14 @@
 import { MiddlewareConsumer, Module, NestModule, CacheModule } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import ormConfig, { getDatabaseSystemIds } from './common/config/orm.config';
 import { getEnvPath } from './common/helper/env.helper';
 import { logger } from './common/middleware/logger.middleware';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
-import { CarManufacturersModule } from './api/car-manufacturers/car-manufacturers.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { DirectiveLocation, GraphQLDirective } from 'graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
-import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
-import { RecipesModule } from './api/recipes/recipes.module';
-import { PointModule } from './point/point.module';
-import { LogAccessModule } from './log-access/log-access.module';
-import { UserRecomendedModule } from './user-recomended/user-recomended.module';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import * as Joi from '@hapi/joi';
+import { ApolloDriver } from '@nestjs/apollo';
 import { DomainModule } from './domain/domain.module';
 import { AppoloModule } from './appolo/appolo.module';
 
@@ -28,7 +17,6 @@ import { AppoloModule } from './appolo/appolo.module';
 import * as redisStore from 'cache-manager-redis-store';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -37,9 +25,12 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     }),
     CacheModule.register({
       isGlobal: true,
-      host: 'localhost',
-      port: 6379,
-      store: redisStore
+      store: redisStore,
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      username: process.env.REDIS_USERNAME, // new property
+      password: process.env.REDIS_PASSWORD, // new property
+      no_ready_check: true, // new property
     }),
     GraphQLModule.forRoot({
       driver: ApolloDriver,

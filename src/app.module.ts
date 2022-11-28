@@ -11,10 +11,9 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { DomainModule } from './domain/domain.module';
 import { AppoloModule } from './appolo/appolo.module';
-
-
-//import redisStore from 'cache-manager-redis-store';
+import { ScheduleModule } from '@nestjs/schedule';
 import * as redisStore from 'cache-manager-redis-store';
+import { TasksService } from './task.service';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 @Module({
@@ -23,6 +22,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
       envFilePath,
       isGlobal: true
     }),
+    ScheduleModule.forRoot(),
     CacheModule.register({
       isGlobal: true,
       // gstore: redisStore,
@@ -51,6 +51,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   ],
   providers: [
     AppService,
+    TasksService
   ],
 })
 
